@@ -17,7 +17,7 @@ castle_path = "models/castle_features/";
 teddy_path = "models/teddybear_features/";
 
 % RANSAC Threshold
-ransac_threshold = 1;
+ransac_threshold = 10;
 numFrames = 3;
 
 % Pick model to use in 3D reconstruction
