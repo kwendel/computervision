@@ -102,6 +102,7 @@ end
 
 % Plot the full merged cloud
 % Helpful for debugging and visualizing your reconstruction
+figure;
 X = mergedCloud(1,:)';
 Y = mergedCloud(2,:)';
 Z = mergedCloud(3,:)';

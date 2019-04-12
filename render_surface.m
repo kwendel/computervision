@@ -22,7 +22,7 @@ function [] = render_surface(pointcloud, M, Mean, img)
     % that is perpendicular (orthogonal) to both a and b, 
     % with a direction given by the right-hand rule and a magnitude 
     % equal to the area of the parallelogram that the vectors span.
-    viewdir = cross(M(1,:), M(2,:));
+    viewdir = cross(M(2,:), M(1,:)); % Reconstruction is upside down
     viewdir = viewdir/sum(abs(viewdir)); % sum(abs(viewdir))=1".
     viewdir = viewdir';
     
@@ -49,16 +49,17 @@ function [] = render_surface(pointcloud, M, Mean, img)
     % Surface generation using TriScatteredInterp
     % You can also use scatteredInterpolant instead.
     % Please check the detailed usage of these functions
-    F  = scatteredInterpolant([X;Y]',Z');
+    F = TriScatteredInterp(X',Y',Z');
+%     F  = scatteredInterpolant([X;Y]',Z');
     qz = F(qx,qy); 
     
     % Note: qz contains NaNs because some points in Z direction may not defined
     % This will lead to NaNs in the following calculation.
     
     % Reshape (qx,qy,qz) to row vectors for next step
-    qxrow = reshape(qx,[],numel(qx));
-    qyrow = reshape(qy,[],numel(qy));
-    qzrow = reshape(qz,[],numel(qz));
+    qxrow = reshape(qx,1,numel(qx));
+    qyrow = reshape(qy,1,numel(qy));
+    qzrow = reshape(qz,1,numel(qz));
     
     % Transform to the main view using the corresponding motion / transformation matrix, M
     q_xy = M * [qxrow;qyrow;qzrow];
@@ -74,7 +75,6 @@ function [] = render_surface(pointcloud, M, Mean, img)
     q_x(isnan(q_y))=1;
     q_y(isnan(q_y))=1;
 
-%     figure(2);
 
     img_size = size(img);
     img_size = img_size(1:2);
@@ -85,9 +85,9 @@ function [] = render_surface(pointcloud, M, Mean, img)
         imgb = img(:,:,3);
 
         % Color selection from image according to (q_y, q_x) using sub2ind
-        Cr = imgr(sub2ind(img_size,floor(q_y), floor(q_x)));
-        Cg = imgg(sub2ind(img_size,floor(q_y), floor(q_x)));
-        Cb = imgb(sub2ind(img_size,floor(q_y), floor(q_x)));
+        Cr = imgr(sub2ind(img_size,round(q_y), round(q_x)));
+        Cg = imgg(sub2ind(img_size,round(q_y), round(q_x)));
+        Cb = imgb(sub2ind(img_size,round(q_y), round(q_x)));
  
         qc(:,:,1) = reshape(Cr,size(qx));
         qc(:,:,2) = reshape(Cg,size(qy));
@@ -100,10 +100,10 @@ function [] = render_surface(pointcloud, M, Mean, img)
     end
 
     % Display surface
+    figure;
     surf(qx, qy, qz, qc);
      
     % Render parameters
-    figure(2);
     axis([-500 500 -500 500 -500 500]);
     daspect([1 1 1]);
     rotate3d on;
