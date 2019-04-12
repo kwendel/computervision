@@ -1,4 +1,4 @@
-function [Matches] = find_matches(directory, C, D, n_files)
+function [Matches] = find_matches(directory, C, D, n_files, ransac_threshold)
 %MATCH Match the given coordinates and their descriptors using the 8 points
 % RANSAC algorithm
 
@@ -40,7 +40,7 @@ for i=1:n_files
     match2 = coord2(1:2,match(2,:));
 
     % Find inliers using normalized 8-point RANSAC algorithm
-    [~, inliers] = estimateFundamentalMatrix(match1,match2);
+    [~, inliers] = estimateFundamentalMatrix(match1,match2, ransac_threshold);
     Matches{i} = match(:,inliers);
 
     print_progress("Matched file: ", (i / n_files), num2str(i));

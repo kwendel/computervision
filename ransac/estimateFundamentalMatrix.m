@@ -8,7 +8,7 @@
 %           - bestF: estimated F 
 %           - bestinliers: inliers found
           
-function [bestF, bestinliers] = estimateFundamentalMatrix(match1, match2)
+function [bestF, bestinliers] = estimateFundamentalMatrix(match1, match2, threshold)
 
     % Set in homogenous coordinates
     match1 = [match1;ones(1,size(match1,2))];
@@ -28,8 +28,8 @@ function [bestF, bestinliers] = estimateFundamentalMatrix(match1, match2)
     % How many points are needed for the Fundamental matrix?
     p= 8;
     
-    % RANSAC Threshold
-    threshold = 10;
+%     % RANSAC Threshold
+%     threshold = 10;
 
     % Start iterations
     i=0;

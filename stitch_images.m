@@ -1,4 +1,4 @@
-function [mergedCloud, M1, MeanFrame1] = stitch_images(n_files,PV, C)
+function [mergedCloud, M1, MeanFrame1] = stitch_images(n_files,PV, C, numFrames)
 %STITCH_IMAGES Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -8,7 +8,6 @@ print_start("stitching images");
 % Stitch every 3 images together to create a point cloud.
 Clouds = {};
 i = 1;
-numFrames=3;
 
 for iBegin = 1:n_files-(numFrames - 1)
     iEnd = iBegin + (numFrames - 1);
@@ -78,7 +77,7 @@ for i = 2:numClouds
     sharedPoints             = newPoints(:,iClouds);
 
     % A certain number of shared points to do procrustes analysis.
-    shared_threshold = 15;
+    shared_threshold = 2;
     if size(sharedPoints, 2) < shared_threshold
         fprintf("Stitching error - not enough point for procrustes for Cloud %d \n", i);
         fprintf("Threshold: %d -- Have: %d \n",shared_threshold,size(sharedPoints,2));
