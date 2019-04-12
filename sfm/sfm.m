@@ -48,7 +48,7 @@ function [M,S,p] = sfm(X)
     if p == 0
         % Update M and S with the corresponding C form: M = MC and S = C^{-1}S. 
         M = M*C;
-        S = inv(C) * S;
+        S = pinv(C) * S;
     end
 
     % Plot the obtained 3D coordinates:
