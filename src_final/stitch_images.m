@@ -21,6 +21,7 @@ for iBegin = 1:n_files-(numFrames - 1)
     % Check the number of visible points in all views
     numPoints = size(colInds, 2);
     if numPoints < 8
+        fprintf("Not enough points frame %d -- %d",iBegin,iEnd);
         continue
     end
 

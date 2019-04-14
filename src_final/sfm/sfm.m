@@ -27,7 +27,7 @@ function [M,S,p] = sfm(X)
     % Compute M and S: One possible decomposition is M = U W^{1/2} and S = W^{1/2} V'
     M = U * sqrt(W);
     S = sqrt(W) * V';
-
+    
     % Eliminate the affine ambiguity
     % Orthographic: We need to impose that image axes (a1 and a2) are perpendicular and their scale is 1.
     % (a1: col vector, projection of x; a2: row vector, projection of y;,)
