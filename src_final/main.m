@@ -47,10 +47,19 @@ end
 % Chain images: create pointview (PV) matrix 
 [PV] = chain_images(model_directory, Matches);
 
+
 % Stitching: with affine Structure from Motion
 % Stitch every 3 images together to create a point cloud.
-[mergedCloud, M1, MeanFrame1] = stitch_images(n_files, PV, C, numFrames);
+[mergedCloud, MeanFrames] = stitch_images(n_files, PV, C, numFrames);
 
 % EXTRA: Render surface + texture based on the first image
-first_img = im2double(imread(strcat(model_directory, all_files(1).name)));
-render_surface(mergedCloud, M1, MeanFrame1, first_img);
+figure(2);hold on;
+for i = 1:4:14
+    img = im2double(imread(strcat(model_directory, all_files(i).name)));
+    M1 = cell2mat(MeanFrames(i,1));
+    Mean = cell2mat(MeanFrames(i,2));
+    render_surface(mergedCloud, M1,Mean,img);
+end
+hold off;
+% first_img = im2double(imread(strcat(model_directory, all_files(1).name)));
+% render_surface(mergedCloud, M1, MeanFrame1, first_img);

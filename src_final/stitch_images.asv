@@ -1,4 +1,4 @@
-function [mergedCloud, MeanFrames] = stitch_images(n_files,PV, C, numFrames)
+function [mergedCloud, M1, MeanFrame1] = stitch_images(n_files,PV, C, numFrames)
 %STITCH_IMAGES Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -49,12 +49,9 @@ for iBegin = 1:n_files-(numFrames - 1)
     % first frame is the camera plane (view) where every point will be projected
     % Please do check if M is non-zero before selection. Otherwise, you
     % have to select another view
-%     if i==1 && ~p
-%         M1=M(1:2,:);
-%         MeanFrame1=sum(X,2)/numPoints;
-%     end
-    if ~p
-        MeanFrames(i,:) = {M(1:2,:),sum(X,2)/numPoints};
+    if i==1 && ~p
+        M1=M(1:2,:);
+        MeanFrame1=sum(X,2)/numPoints;
     end
 
     if ~p

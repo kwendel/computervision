@@ -100,7 +100,7 @@ function [] = render_surface(pointcloud, M, Mean, img)
     end
 
     % Display surface
-    figure;
+%     figure;
     surf(qx, qy, qz, qc);
      
     % Render parameters
