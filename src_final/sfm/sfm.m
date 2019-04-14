@@ -51,5 +51,12 @@ function [M,S,p] = sfm(X)
     end
 
     % Plot the obtained 3D coordinates:
-%     figure; plot3(S(1,:),S(2,:),S(3,:),'.r');
+%     X = S(1,:)';
+%     Y = S(2,:)';
+%     Z = S(3,:)';
+%     figure;
+%     scatter3(X, Y, Z, 20, [1 0 0], 'filled');
+%     axis( [-500 500 -500 500 -500 500] )
+%     daspect([1 1 1])
+%     rotate3d on;
 end

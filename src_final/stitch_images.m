@@ -98,6 +98,19 @@ for i = 2:numClouds
     % and store them in the merged cloud, and add their indexes to merged set
     mergedCloud(:, iNew) = (T.b * newPoints(:,iCloudsNew)' * T.T + c)';
     mergedInds           = [mergedInds iNew];
+    
+    if ismember(i,[2,6,14])
+        figure;
+        disp(length(mergedInds));
+        X = mergedCloud(1,:)';
+        Y = mergedCloud(2,:)';
+        Z = mergedCloud(3,:)';
+        scatter3(X, Y, Z, 20, [1 0 0], 'filled');
+        axis( [-500 500 -500 500 -500 500] )
+        % axis( [-750 750 -750 750 -750 750])
+        daspect([1 1 1])
+        rotate3d on;
+    end
 end
 
 % Plot the full merged cloud
